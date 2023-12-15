@@ -1,6 +1,7 @@
 package com.akshay.blog.services.implementations;
 
 import com.akshay.blog.entities.User;
+import com.akshay.blog.exceptions.ResourceNotFoundException;
 import com.akshay.blog.payloads.UserDTO;
 import com.akshay.blog.reporsitories.UserRepository;
 import com.akshay.blog.services.UserServices;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServicesImplementation implements UserServices {
@@ -27,15 +29,25 @@ public class UserServicesImplementation implements UserServices {
     }
 
     /**
-     * @param user
+     * @param userDTO
      * @param userId
      * @return
      */
     @Override
-    public UserDTO updateUser(UserDTO user, Integer userId) {
+    public UserDTO updateUser(UserDTO userDTO, Integer userId) {
 
+        User user = this.userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", " ID ",userId));
 
-        return null;
+        user.setName(userDTO.getName());
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(userDTO.getPassword());
+        user.setAbout(userDTO.getAbout());
+
+        User updatedUser = this.userRepository.save(user);
+
+        UserDTO updateUserDTO = this.userToUserDTO(updatedUser);
+
+        return updateUserDTO;
     }
 
     /**
@@ -44,7 +56,9 @@ public class UserServicesImplementation implements UserServices {
      */
     @Override
     public UserDTO getuserById(Integer userId) {
-        return null;
+
+        User user = this.userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", " ID ",userId));
+        return this.userToUserDTO(user);
     }
 
     /**
@@ -52,7 +66,11 @@ public class UserServicesImplementation implements UserServices {
      */
     @Override
     public List<UserDTO> getAllUsers() {
-        return null;
+
+        List<User> allUsers = this.userRepository.findAll();
+
+        List<UserDTO> allUserDTO = allUsers.stream().map(user -> this.userToUserDTO(user)).collect(Collectors.toList());
+        return allUserDTO;
     }
 
     /**
@@ -60,7 +78,10 @@ public class UserServicesImplementation implements UserServices {
      */
     @Override
     public void deleteUser(Integer userId) {
+        User user = this.userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", " ID ",userId));
 
+        this.userRepository.delete(user);
+        System.out.println(user.getName()+" deleted successfully");
     }
 
     public User userDTOTouser(UserDTO userDTO){
