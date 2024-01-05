@@ -3,12 +3,12 @@ package com.akshay.blog.controllers;
 import com.akshay.blog.payloads.ApiResponse;
 import com.akshay.blog.payloads.UserDTO;
 import com.akshay.blog.services.UserServices;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
