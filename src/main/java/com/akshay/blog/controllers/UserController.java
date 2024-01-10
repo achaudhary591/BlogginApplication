@@ -45,6 +45,6 @@ public class UserController {
 
     @GetMapping("/get-user-detail/{userId}")
     public ResponseEntity<UserDTO> getSingleUser(@PathVariable Integer userId){
-        return ResponseEntity.ok(this.userServices.getuserById(userId) );
+        return ResponseEntity.ok(this.userServices.getUserById(userId) );
     }
 }

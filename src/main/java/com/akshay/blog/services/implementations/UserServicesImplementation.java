@@ -56,7 +56,7 @@ public class UserServicesImplementation implements UserServices {
      * @return
      */
     @Override
-    public UserDTO getuserById(Integer userId) {
+    public UserDTO getUserById(Integer userId) {
 
         User user = this.userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", " ID ",userId));
         return this.userToUserDTO(user);

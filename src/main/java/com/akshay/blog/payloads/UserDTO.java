@@ -5,8 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 @NoArgsConstructor
 @Getter
@@ -15,15 +14,16 @@ public class  UserDTO {
 
     private int id;
 
-    @NotNull
+    @NotEmpty
+    @Size(min = 4, message = "Username must be atleast four characters long")
     private String name;
 
-    @Email
+    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)$", message = "Please enter a valid email address")
     private String email;
 
-    @NotNull
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{4,12}$", message = "password must be min 4 and max 12 length containing atleast 1 uppercase, 1 lowercase, 1 special character and 1 digit ")
     private String password;
 
-    @NotNull
+    @NotEmpty
     private String about;
 }
