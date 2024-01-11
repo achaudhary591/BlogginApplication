@@ -3,6 +3,8 @@ package com.akshay.blog.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -22,4 +24,6 @@ public class User {
 	private String password;
 	private String about;
 
+	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Post> posts = new HashSet<>();
 }
