@@ -1,6 +1,7 @@
 package com.akshay.blog.entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.Date;
 @Setter
 @Entity
 @Table(name = "post")
+@NoArgsConstructor
 public class Post {
 
     @Id
@@ -24,7 +26,7 @@ public class Post {
 
     private String imageName;
 
-    private Date addDate;
+    private Date addedDate;
 
     @ManyToOne
     private Category category;
