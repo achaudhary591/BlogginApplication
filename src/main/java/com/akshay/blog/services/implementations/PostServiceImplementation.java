@@ -4,6 +4,7 @@ import com.akshay.blog.entities.Category;
 import com.akshay.blog.entities.Post;
 import com.akshay.blog.entities.User;
 import com.akshay.blog.exceptions.ResourceNotFoundException;
+import com.akshay.blog.payloads.CategoryDTO;
 import com.akshay.blog.payloads.PostDTO;
 import com.akshay.blog.reporsitories.CategoryRepository;
 import com.akshay.blog.reporsitories.PostRepository;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,7 +35,7 @@ public class PostServiceImplementation implements PostService {
     private CategoryRepository categoryRepository;
 
     /**
-     * @param postDTO 
+     * @param postDTO
      * @return
      */
     @Override
@@ -55,42 +57,59 @@ public class PostServiceImplementation implements PostService {
     }
 
     /**
-     * @param postDTO 
+     * @param postDTO
      * @param postId
      * @return
      */
     @Override
     public PostDTO updatePost(PostDTO postDTO, Integer postId) {
-        return null;
+
+        Post post = this.postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post ", "Post ID", postId));
+
+        post.setContent(postDTO.getContent());
+        post.setTitle(postDTO.getTitle());
+        post.setImageName(postDTO.getImageName());
+        post.setAddedDate(postDTO.getAddedDate());
+
+        Post updatedPost = this.postRepository.save(post);
+
+        return this.modelMapper.map(updatedPost, PostDTO.class);
     }
 
     /**
-     * @param postId 
+     * @param postId
      */
     @Override
     public void deletePost(Integer postId) {
-
+        Post post = this.postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post ", "Post ID", postId));
+        this.postRepository.delete(post);
     }
 
     /**
-     * @return 
+     * @return
      */
     @Override
     public List<PostDTO> getAllPost() {
-        return null;
+
+        List<Post> allPosts = this.postRepository.findAll();
+
+        return allPosts.stream().map(post -> this.modelMapper.map(post, PostDTO.class)).collect(Collectors.toList());
     }
 
     /**
-     * @param postId 
+     * @param postId
      * @return
      */
     @Override
     public PostDTO getSinglePostById(Integer postId) {
-        return null;
+
+        Post post = this.postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post ", "Post ID", postId));
+
+        return this.modelMapper.map(post, PostDTO.class);
     }
 
     /**
-     * @param categoryId 
+     * @param categoryId
      * @return
      */
     @Override
@@ -102,7 +121,7 @@ public class PostServiceImplementation implements PostService {
     }
 
     /**
-     * @param userId 
+     * @param userId
      * @return
      */
     @Override
@@ -114,7 +133,7 @@ public class PostServiceImplementation implements PostService {
     }
 
     /**
-     * @param keyword 
+     * @param keyword
      * @return
      */
     @Override

@@ -4,6 +4,7 @@ import com.akshay.blog.entities.Post;
 import com.akshay.blog.payloads.PostDTO;
 
 import java.util.List;
+import java.util.Set;
 
 public interface PostService {
 
