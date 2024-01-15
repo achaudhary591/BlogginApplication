@@ -24,7 +24,7 @@ public class UserServicesImplementation implements UserServices {
     @Override
     public UserDTO createUser(UserDTO userDTO) {
 
-        User user = this.userDTOTouser(userDTO);
+        User user = this.userDTOToUser(userDTO);
         User savedUser = this.userRepository.save(user);
         return this.userToUserDTO(savedUser);
     }
@@ -85,11 +85,11 @@ public class UserServicesImplementation implements UserServices {
         System.out.println(user.getName()+" deleted successfully");
     }
 
-    public User userDTOTouser(UserDTO userDTO){
+    public User userDTOToUser(UserDTO userDTO){
 
         User user = new User();
 
-        user.setId(userDTO.getId());
+        user.setUserId(userDTO.getUserId());
         user.setName(userDTO.getName());
         user.setEmail(userDTO.getEmail());
         user.setPassword(userDTO.getPassword());
@@ -102,7 +102,7 @@ public class UserServicesImplementation implements UserServices {
 
         UserDTO userDTO = new UserDTO();
 
-        userDTO.setId(user.getId());
+        userDTO.setUserId(user.getUserId());
         userDTO.setName(user.getName());
         userDTO.setEmail(user.getEmail());
         userDTO.setPassword(user.getPassword());
