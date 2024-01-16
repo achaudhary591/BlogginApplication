@@ -11,4 +11,6 @@ public interface UserServices {
     UserDTO getUserById(Integer userId);
     List<UserDTO> getAllUsers();
     void deleteUser(Integer userId);
+
+    List<UserDTO> createMultipleUsers(List<UserDTO> users);
 }

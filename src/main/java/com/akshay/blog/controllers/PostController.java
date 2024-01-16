@@ -31,7 +31,7 @@ public class PostController {
     }
 
     ///update post
-    @PostMapping("/update-post/{postId}")
+    @PutMapping("/update-post/{postId}")
     public ResponseEntity<PostDTO> updatePost(@Valid @RequestBody PostDTO postDTO, @PathVariable Integer postId){
 
         PostDTO updatedPost = this.postService.updatePost(postDTO, postId);

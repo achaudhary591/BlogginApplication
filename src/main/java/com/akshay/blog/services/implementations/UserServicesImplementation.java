@@ -85,6 +85,15 @@ public class UserServicesImplementation implements UserServices {
         System.out.println(user.getName()+" deleted successfully");
     }
 
+    /**
+     * @param users 
+     * @return
+     */
+    @Override
+    public List<UserDTO> createMultipleUsers(List<UserDTO> users) {
+        return null;
+    }
+
     public User userDTOToUser(UserDTO userDTO){
 
         User user = new User();
