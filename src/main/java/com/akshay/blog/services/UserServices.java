@@ -12,5 +12,5 @@ public interface UserServices {
     List<UserDTO> getAllUsers();
     void deleteUser(Integer userId);
 
-    List<UserDTO> createMultipleUsers(List<UserDTO> users);
+    List<UserDTO> createMultipleUsers(List<UserDTO> usersDTO);
 }

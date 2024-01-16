@@ -86,12 +86,17 @@ public class UserServicesImplementation implements UserServices {
     }
 
     /**
-     * @param users 
+     * @param usersDTO
      * @return
      */
     @Override
-    public List<UserDTO> createMultipleUsers(List<UserDTO> users) {
-        return null;
+    public List<UserDTO> createMultipleUsers(List<UserDTO> usersDTO) {
+
+        List<User> users = usersDTO.stream().map(userDTO -> this.userDTOToUser(userDTO)).collect(Collectors.toList());
+
+        List<User> savedUsers = this.userRepository.saveAll(users);
+
+        return savedUsers.stream().map(user -> this.userToUserDTO(user)).collect(Collectors.toList());
     }
 
     public User userDTOToUser(UserDTO userDTO){

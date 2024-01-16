@@ -47,4 +47,10 @@ public class UserController {
     public ResponseEntity<UserDTO> getSingleUser(@PathVariable Integer userId){
         return ResponseEntity.ok(this.userServices.getUserById(userId) );
     }
+
+    @PostMapping("/create-multiple-users")
+    public ResponseEntity<List<UserDTO>> createMultipleUsers(@Valid @RequestBody List<UserDTO> usersDTO){
+        List<UserDTO> createdUserDTO = this.userServices.createMultipleUsers(usersDTO);
+        return new ResponseEntity<>(createdUserDTO, HttpStatus.CREATED);
+    }
 }

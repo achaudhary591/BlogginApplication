@@ -72,6 +72,15 @@ public class CategoryServiceImplementation implements CategoryService {
     }
 
     /**
+     * @param categoryDTOList 
+     * @return
+     */
+    @Override
+    public List<CategoryDTO> createMultipleCategories(List<CategoryDTO> categoryDTOList) {
+        return null;
+    }
+
+    /**
      * @return 
      */
     @Override
