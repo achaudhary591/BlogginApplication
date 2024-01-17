@@ -12,6 +12,7 @@ import com.akshay.blog.reporsitories.UserRepository;
 import com.akshay.blog.services.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -91,11 +92,19 @@ public class PostServiceImplementation implements PostService {
      * @return
      */
     @Override
-    public List<PostDTO> getAllPost() {
+    public List<PostDTO> getAllPost(Integer pageNumber, Integer pageSize) {
+        ///page number start from 0 by default
 
-        Pageable pageable = PageRequest.of(5,5);
+        if(pageNumber < 0){
+            pageNumber = 0;
+        }
+        if (pageSize < 1){
+            pageSize = 1;
+        }
+        Pageable pageable = PageRequest.of(pageNumber,pageSize);
 
-        List<Post> allPosts = this.postRepository.findAll();
+        Page<Post> pagePost = this.postRepository.findAll(pageable);
+        List<Post> allPosts = pagePost.getContent();
 
         return allPosts.stream().map(post -> this.modelMapper.map(post, PostDTO.class)).collect(Collectors.toList());
     }

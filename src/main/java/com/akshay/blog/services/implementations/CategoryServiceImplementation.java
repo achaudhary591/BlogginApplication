@@ -77,7 +77,10 @@ public class CategoryServiceImplementation implements CategoryService {
      */
     @Override
     public List<CategoryDTO> createMultipleCategories(List<CategoryDTO> categoryDTOList) {
-        return null;
+
+        List<Category> categories = categoryDTOList.stream().map(categoryDTO -> this.modelMapper.map(categoryDTO, Category.class)).collect(Collectors.toList());
+        List<Category> savedCategories = this.categoryRepository.saveAll(categories);
+        return savedCategories.stream().map(category -> this.modelMapper.map(category, CategoryDTO.class)).collect(Collectors.toList());
     }
 
     /**

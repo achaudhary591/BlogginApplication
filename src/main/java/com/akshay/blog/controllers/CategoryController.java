@@ -27,7 +27,7 @@ public class CategoryController {
     }
 
     ///update category
-    @PostMapping("/update-category/{categoryId}")
+    @PutMapping("/update-category/{categoryId}")
     public ResponseEntity<CategoryDTO> updateCategory(@Valid @RequestBody CategoryDTO categoryDTO, @PathVariable Integer categoryId){
         CategoryDTO updatedCategory = this.categoryService.updateCategory(categoryDTO, categoryId);
         return new ResponseEntity<CategoryDTO>(updatedCategory, HttpStatus.OK);
@@ -52,6 +52,13 @@ public class CategoryController {
     public ResponseEntity<List<CategoryDTO>> getAllCategories(){
         List<CategoryDTO> categoryDTOList = this.categoryService.getAllCategories();
         return ResponseEntity.ok(categoryDTOList);
+    }
+
+    ///create multiple categories
+    @PostMapping("/create-multiple-categories")
+    public ResponseEntity<List<CategoryDTO>> createMultipleCategories(@Valid @RequestBody List<CategoryDTO> categoryDTOList){
+        List<CategoryDTO> createdCategoriesList = this.categoryService.createMultipleCategories(categoryDTOList);
+        return new ResponseEntity<List<CategoryDTO>>(createdCategoriesList, HttpStatus.CREATED);
     }
 
 }
