@@ -6,6 +6,7 @@ import com.akshay.blog.entities.User;
 import com.akshay.blog.exceptions.ResourceNotFoundException;
 import com.akshay.blog.payloads.CategoryDTO;
 import com.akshay.blog.payloads.PostDTO;
+import com.akshay.blog.payloads.PostResponse;
 import com.akshay.blog.reporsitories.CategoryRepository;
 import com.akshay.blog.reporsitories.PostRepository;
 import com.akshay.blog.reporsitories.UserRepository;
@@ -92,7 +93,7 @@ public class PostServiceImplementation implements PostService {
      * @return
      */
     @Override
-    public List<PostDTO> getAllPost(Integer pageNumber, Integer pageSize) {
+    public PostResponse getAllPost(Integer pageNumber, Integer pageSize) {
         ///page number start from 0 by default
 
         if(pageNumber < 0){
@@ -106,7 +107,18 @@ public class PostServiceImplementation implements PostService {
         Page<Post> pagePost = this.postRepository.findAll(pageable);
         List<Post> allPosts = pagePost.getContent();
 
-        return allPosts.stream().map(post -> this.modelMapper.map(post, PostDTO.class)).collect(Collectors.toList());
+        List<PostDTO> postDTOList = allPosts.stream().map(post -> this.modelMapper.map(post, PostDTO.class)).collect(Collectors.toList());
+
+        PostResponse postResponse = new PostResponse();
+
+        postResponse.setContent(postDTOList);
+        postResponse.setPageNumber(pagePost.getNumber());
+        postResponse.setPageSize(pagePost.getSize());
+        postResponse.setTotalElements(pagePost.getTotalElements());
+        postResponse.setTotalPages(pagePost.getTotalPages());
+        postResponse.setLastPage(pagePost.isLast());
+
+        return postResponse;
     }
 
     /**
