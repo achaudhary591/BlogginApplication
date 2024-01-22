@@ -1,6 +1,7 @@
 package com.akshay.blog.controllers;
 
 import com.akshay.blog.config.AppConstants;
+import com.akshay.blog.entities.Post;
 import com.akshay.blog.payloads.ApiResponse;
 import com.akshay.blog.payloads.CategoryDTO;
 import com.akshay.blog.payloads.PostDTO;
@@ -95,10 +96,15 @@ public class PostController {
 
     ///post image upload
     @PostMapping("/image/upload/{postId}")
-    public ResponseEntity<> uploadPostImage(
-            @RequestParam("image")MultipartFile image
+    public ResponseEntity<PostDTO> uploadPostImage(
+            @RequestParam("image")MultipartFile image,
+            @PathVariable Integer postId
             ) throws IOException {
 
         String fileName = this.fileService.uploadImage(path, image);
+        PostDTO postDTO = this.postService.getSinglePostById(postId);
+        postDTO.setImageName(fileName);
+        PostDTO updatedPostDTO = this.postService.updatePost(postDTO, postId);
+        return new ResponseEntity<>(updatedPostDTO, HttpStatus.OK);
     }
 }
