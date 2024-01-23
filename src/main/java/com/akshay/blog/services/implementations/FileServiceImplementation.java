@@ -39,8 +39,7 @@ public class FileServiceImplementation implements FileService {
         //file copy
         Files.copy(file.getInputStream(), Paths.get(filePath));
 
-
-        return name;
+        return fileName1;
     }
 
     /**
@@ -57,4 +56,5 @@ public class FileServiceImplementation implements FileService {
 
         return inputStream;
     }
+
 }

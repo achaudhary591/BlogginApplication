@@ -11,12 +11,16 @@ import com.akshay.blog.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Set;
 
@@ -101,10 +105,20 @@ public class PostController {
             @PathVariable Integer postId
             ) throws IOException {
 
-        String fileName = this.fileService.uploadImage(path, image);
         PostDTO postDTO = this.postService.getSinglePostById(postId);
+        String fileName = this.fileService.uploadImage(path, image);
         postDTO.setImageName(fileName);
         PostDTO updatedPostDTO = this.postService.updatePost(postDTO, postId);
         return new ResponseEntity<>(updatedPostDTO, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/image/{imageName}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public void downloadPostImage(
+            @PathVariable("imageName") String imageName,
+            HttpServletResponse response
+    ) throws IOException {
+        InputStream resource = this.fileService.getResource(path, imageName);
+        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        StreamUtils.copy(resource, response.getOutputStream());
     }
 }
