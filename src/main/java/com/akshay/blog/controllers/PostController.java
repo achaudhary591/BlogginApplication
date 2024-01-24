@@ -46,6 +46,14 @@ public class PostController {
         return new ResponseEntity<PostDTO>(createdPost, HttpStatus.CREATED);
     }
 
+    ///single post by id
+    @GetMapping("/{postId}")
+    public ResponseEntity<PostDTO> getPostByPostId(@PathVariable Integer postId){
+        PostDTO postDTO = this.postService.getSinglePostById(postId);
+
+        return new ResponseEntity<>(postDTO, HttpStatus.OK);
+    }
+
     ///update post
     @PutMapping("/update-post/{postId}")
     public ResponseEntity<PostDTO> updatePost(@Valid @RequestBody PostDTO postDTO, @PathVariable Integer postId){
