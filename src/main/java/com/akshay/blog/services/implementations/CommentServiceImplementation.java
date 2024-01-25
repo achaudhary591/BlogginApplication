@@ -13,6 +13,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CommentServiceImplementation implements CommentService {
 
@@ -31,16 +35,19 @@ public class CommentServiceImplementation implements CommentService {
     /**
      * @param commentDTO
      * @param postId
+     * @param userId
      * @return
      */
     @Override
-    public CommentDTO createComment(CommentDTO commentDTO, Integer postId) {
+    public CommentDTO createComment(CommentDTO commentDTO, Integer postId, Integer userId) {
 
         Post post = this.postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", " post_id ", postId));
+        User user = this.userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", " user_id ", userId));
 
         Comment comment = this.modelMapper.map(commentDTO, Comment.class);
 
         comment.setPost(post);
+        comment.setUser(user);
 
         Comment savedComment= this.commentRepository.save(comment);
 
@@ -57,5 +64,28 @@ public class CommentServiceImplementation implements CommentService {
 
         this.commentRepository.delete(comment);
 
+    }
+
+    /**
+     * @param commentId 
+     * @return
+     */
+    @Override
+    public CommentDTO getSingleCommentUsingCommentId(Integer commentId) {
+
+        Comment comment = this.commentRepository.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("Comment", " comment_id", commentId));
+
+        return this.modelMapper.map(comment, CommentDTO.class);
+    }
+
+    /**
+     * @return 
+     */
+    @Override
+    public Set<CommentDTO> getAllComments() {
+
+        List<Comment> commentList = this.commentRepository.findAll();
+
+        return commentList.stream().map(comment -> this.modelMapper.map(comment, CommentDTO.class)).collect(Collectors.toSet());
     }
 }

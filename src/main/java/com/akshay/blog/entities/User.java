@@ -26,8 +26,8 @@ public class User {
 
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Post> posts = new HashSet<>();
-/*
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)  // Adjusted mappedBy to "user"
-	private Set<Comment> comments = new HashSet<>();*/
+	private Set<Comment> comments = new HashSet<>();
 
 }

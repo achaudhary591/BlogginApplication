@@ -15,13 +15,19 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    @PostMapping("/create/post/{postId}")
-    public ResponseEntity<CommentDTO> createComment(@RequestBody CommentDTO commentDTO, @PathVariable Integer postId){
-       CommentDTO createdComment = this.commentService.createComment(commentDTO, postId);
+    ///Creating comment and assigning it to post and a user using postid and userid
+    @PostMapping("/create/post/{postId}/user/{userId}")
+    public ResponseEntity<CommentDTO> createComment(@RequestBody CommentDTO commentDTO, @PathVariable Integer postId, @PathVariable Integer userId){
+       CommentDTO createdComment = this.commentService.createComment(commentDTO, postId, userId);
 
        return new ResponseEntity<CommentDTO>(createdComment, HttpStatus.CREATED);
     }
 
+    ///fetch comment using
+    @GetMapping("/all_comments")
+
+
+    ///Deleting comment using comment id
     @DeleteMapping("/delete/{commentId}")
     public ResponseEntity<ApiResponse> deleteComment(@PathVariable Integer commentId){
         this.commentService.deleteComment(commentId);
