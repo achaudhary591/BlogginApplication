@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 @RestController
 @RequestMapping("/api/comment")
 public class CommentController {
@@ -23,8 +25,12 @@ public class CommentController {
        return new ResponseEntity<CommentDTO>(createdComment, HttpStatus.CREATED);
     }
 
-    ///fetch comment using
-    @GetMapping("/all_comments")
+    ///fetch all comment
+    @GetMapping("/all-comments")
+    public ResponseEntity<Set<CommentDTO>> getAllComments(){
+        Set<CommentDTO> allComments = this.commentService.getAllComments();
+        return new ResponseEntity<Set<CommentDTO>>(allComments, HttpStatus.OK);
+    }
 
 
     ///Deleting comment using comment id
