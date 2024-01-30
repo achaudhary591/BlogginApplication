@@ -11,13 +11,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     /**
-     * @param http 
+     * @param http
      * @throws Exception
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
         http.
-                csrf().disable();
+        csrf().disable().
+        authorizeHttpRequests().
+        anyRequest().
+        authenticated().
+        and().httpBasic();
     }
 }
