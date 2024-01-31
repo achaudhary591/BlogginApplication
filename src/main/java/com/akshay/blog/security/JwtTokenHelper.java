@@ -23,5 +23,17 @@ public class JwtTokenHelper {
         return getClaimFromToken(token, Claims::getExpiration);
     }
 
-    public <T> getClaimFromToken(String token, Function<Claims, T> claimsResolver)
+    public <T> getClaimFromToken(String token, Function<Claims, T> claimsResolver){
+        final Claims claims = getAllClaimsFromToken(token);
+        return claimsResolver.apply(claims);
+    }
+
+    private Claims getAllClaimsFromToken(String token){
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+    }
+
+    private Boolean isTokenExpired(String token){
+        final Date expiration = getExpirationDateFromToken(token);
+        re
+    }
 }
