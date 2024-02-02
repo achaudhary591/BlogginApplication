@@ -36,10 +36,11 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         //1. get token
 
         String requestToken = request.getHeader("Authorization");
+
+        //bearer
         Enumeration<String> headerNames = request.getHeaderNames();
 
-        while(headerNames.hasMoreElements())
-        {
+        while (headerNames.hasMoreElements()) {
             System.out.println(headerNames.nextElement());
         }
 
