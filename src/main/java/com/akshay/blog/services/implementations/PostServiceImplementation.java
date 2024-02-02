@@ -97,15 +97,15 @@ public class PostServiceImplementation implements PostService {
     public PostResponse getAllPost(Integer pageNumber, Integer pageSize, String sortBy, String sortDirection) {
         ///page number start from 0 by default
 
-        if(pageNumber < 0){
-            pageNumber = 0;
+        if(pageNumber <= 0){
+            pageNumber = 1;
         }
         if (pageSize < 1){
             pageSize = 1;
         }
         Sort sort = (sortDirection.equalsIgnoreCase("asc")) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
 
-        Pageable pageable = PageRequest.of(pageNumber,pageSize, sort);
+        Pageable pageable = PageRequest.of((pageNumber - 1) ,pageSize, sort);
 
         Page<Post> pagePost = this.postRepository.findAll(pageable);
         List<Post> allPosts = pagePost.getContent();
@@ -115,7 +115,7 @@ public class PostServiceImplementation implements PostService {
         PostResponse postResponse = new PostResponse();
 
         postResponse.setContent(postDTOList);
-        postResponse.setPageNumber(pagePost.getNumber());
+        postResponse.setPageNumber(pagePost.getNumber() + 1);
         postResponse.setPageSize(pagePost.getSize());
         postResponse.setTotalElements(pagePost.getTotalElements());
         postResponse.setTotalPages(pagePost.getTotalPages());

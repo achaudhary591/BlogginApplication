@@ -94,7 +94,7 @@ public class PostController {
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
             @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIR, required = false) String sortDir
             ){
-        PostResponse allPosts = this.postService.getAllPost(pageNumber - 1, pageSize, sortBy, sortDir);
+        PostResponse allPosts = this.postService.getAllPost(pageNumber, pageSize, sortBy, sortDir);
         return new ResponseEntity<PostResponse>(allPosts, HttpStatus.OK);
     }
 
