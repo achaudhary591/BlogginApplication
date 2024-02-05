@@ -1,22 +1,61 @@
 package com.akshay.blog.services.implementations;
 
+import com.akshay.blog.config.AppConstants;
+import com.akshay.blog.entities.Role;
 import com.akshay.blog.entities.User;
 import com.akshay.blog.exceptions.ResourceNotFoundException;
 import com.akshay.blog.payloads.UserDTO;
+import com.akshay.blog.reporsitories.RoleRepository;
 import com.akshay.blog.reporsitories.UserRepository;
 import com.akshay.blog.services.UserServices;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.akshay.blog.config.AppConstants.NORMAL_USER;
+
 @Service
 public class UserServicesImplementation implements UserServices {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    /**
+     * @param userDTO 
+     * @return
+     */
+    @Override
+    public UserDTO registerNewUser(UserDTO userDTO) {
+
+        User user = this.modelMapper.map(userDTO, User.class);
+
+        ///encoded the password
+        user.setPassword(this.passwordEncoder.encode(user.getPassword()));
+
+        ///managing roles
+        Role role = this.roleRepository.findById(NORMAL_USER).get();
+
+        user.getRoles().add(role);
+
+        User savedUser = this.userRepository.save(user);
+
+        return this.modelMapper.map(savedUser, UserDTO.class);
+    }
+
     /**
      * @param userDTO
      * @return

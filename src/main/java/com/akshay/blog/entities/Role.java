@@ -1,18 +1,15 @@
 package com.akshay.blog.entities;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "role")
 public class Role {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Integer roleId;
 

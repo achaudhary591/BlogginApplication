@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface UserServices {
 
+    UserDTO registerNewUser(UserDTO userDTO);
     UserDTO createUser(UserDTO userDTO);
     UserDTO updateUser(UserDTO userDTO, Integer  userId);
     UserDTO getUserById(Integer userId);
