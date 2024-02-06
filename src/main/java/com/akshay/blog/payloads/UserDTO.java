@@ -28,4 +28,6 @@ public class  UserDTO {
 
     @NotEmpty
     private String about;
+
+    private Set<RoleDTO> roles = new HashSet<>();
 }
