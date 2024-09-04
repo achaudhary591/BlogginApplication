@@ -55,4 +55,5 @@ public class UserController {
         List<UserDTO> createdUserDTO = this.userServices.createMultipleUsers(usersDTO);
         return new ResponseEntity<>(createdUserDTO, HttpStatus.CREATED);
     }
+
 }
